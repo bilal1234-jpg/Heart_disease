@@ -57,6 +57,9 @@ class Cardio_vascular(Screen):
 class Main_screen(Screen):
      pass
 
+class Predict2(Screen):
+     pass
+
 
 class Start_page_UI(Screen):
     def __init__(self, **kwargs):
@@ -110,6 +113,10 @@ class apps(MDApp):
         self.model7 = load('model_heart_disease/RandomForestClassifier_cardio.joblib')
         self.model8 = load('model_heart_disease/RandomForestClassifier1_cardio.joblib')
         self.model9 = load('model_heart_disease/XGBClassifier_cardio.joblib')
+
+        self.scaler_stroke = load('model_heart_disease\scalers_stroke.joblib')
+        self.model10 = load('model_heart_disease\XGBClassifier_stroke.joblib')
+        self.model11 = load('model_heart_disease\RandomForestClassifier_stroke.joblib')
 
         self.h = 0
     
@@ -254,25 +261,6 @@ class apps(MDApp):
     def item6(self, x):
          self.root.get_screen('cardi').ids.drop_item_car_chales.text = x 
 
-    def glo_level(self, button):  
-            menu_items = [  
-                {"text": "Normal", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 1": self.item7('1')},  
-                {"text": "Above normal", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 2": self.item7('2')},
-                {"text": "Well above normal", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 3": self.item7('3')},
-                 
-                
-            ]  
-
-            self.dropdown_menu = MDDropdownMenu(  
-                caller=button,  
-                items=menu_items,  
-                width_mult=4,  
-            )  
-            self.dropdown_menu.open()  
-
-    def item7(self, x):
-         self.root.get_screen('cardi').ids.golucose.text = x 
-
 
     def smoker(self, button):  
             menu_items = [  
@@ -331,6 +319,112 @@ class apps(MDApp):
 
     def item10(self, x):
          self.root.get_screen('cardi').ids.active.text = x 
+
+
+
+    def hypertension(self, button):  
+            menu_items = [  
+                {"text": "0", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 1": self.item11('0')},  
+                {"text": "1", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 2": self.item11('1')},
+                
+                 
+                
+            ]  
+
+            self.dropdown_menu = MDDropdownMenu(  
+                caller=button,  
+                items=menu_items,  
+                width_mult=4,  
+            )  
+            self.dropdown_menu.open()  
+
+    def item11(self, x):
+         self.root.get_screen('cardi').ids.hyper.text = x 
+    
+    def heart_dis(self, button):  
+            menu_items = [  
+                {"text": "No heart Disease Presence", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 1": self.item12('0')},  
+                {"text": "heart Disease Presence", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 2": self.item12('1')},
+                
+                 
+                
+            ]  
+
+            self.dropdown_menu = MDDropdownMenu(  
+                caller=button,  
+                items=menu_items,  
+                width_mult=4,  
+            )  
+            self.dropdown_menu.open()  
+
+    def item12(self, x):
+         self.root.get_screen('cardi').ids.heart_dis.text = x 
+
+
+    def work(self, button):  
+            menu_items = [  
+                {"text": "Children", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 1": self.item13('children')},  
+                {"text": "Private", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 2": self.item13('Private')},
+                {"text": "Never_worked", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 2": self.item13('Never_worked')},
+                {"text": "Self-employed", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 2": self.item13('Self-employed')},
+                {"text": "Govt_job", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 2": self.item13('Govt_job')},
+                
+                 
+                
+            ]  
+
+            self.dropdown_menu = MDDropdownMenu(  
+                caller=button,  
+                items=menu_items,  
+                width_mult=4,  
+            )  
+            self.dropdown_menu.open()  
+
+    def item13(self, x):
+         self.root.get_screen('cardi').ids.work.text = x 
+
+
+    def married(self, button):  
+            menu_items = [  
+                {"text": "No", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 1": self.item14('No')},  
+                {"text": "Yes", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 2": self.item14('Yes')},
+                
+                 
+                
+            ]  
+
+            self.dropdown_menu = MDDropdownMenu(  
+                caller=button,  
+                items=menu_items,  
+                width_mult=4,  
+            )  
+            self.dropdown_menu.open()  
+
+    def item14(self, x):
+         self.root.get_screen('cardi').ids.married.text = x 
+
+
+
+    def residence(self, button):  
+            menu_items = [  
+                {"text": "Rural", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 1": self.item15('Rural')},  
+                {"text": "Urban", "viewclass": "OneLineListItem","height": dp(54), "on_release": lambda x="Item 2": self.item15('Urban')},
+                
+                 
+                
+            ]  
+
+            self.dropdown_menu = MDDropdownMenu(  
+                caller=button,  
+                items=menu_items,  
+                width_mult=4,  
+            )  
+            self.dropdown_menu.open()  
+
+    def item15(self, x):
+         self.root.get_screen('cardi').ids.residence.text = x 
+
+    
 
     def heart_db(self):
         Name = self.root.get_screen('h_scr1').ids.name.text
@@ -449,8 +543,59 @@ class apps(MDApp):
             )
             dialog.open()
 
+    def card_display(self):
+        try:
+            self.glucose = int(self.root.get_screen('cardi').ids.gluco_level.text)
+            if 70 <= self.glucose <= 100:
+                t1 = 'Normal'
+                color = (0, 0, 1, 1)  # Blue color in RGBA format
+                self.root.get_screen('cardi').ids.gluco_level.helper_text = t1
+                self.root.get_screen('cardi').ids.gluco_level.line_color_focus = color
+                self.root.get_screen('cardi').ids.gluco_level.hint_text_color_focus = color
+                self.root.get_screen('cardi').ids.gluco_level.focus = False 
+                self.root.get_screen('cardi').ids.gluco_level.focus = True  
+                return '1'
+            elif 101 <= self.glucose <= 200:
+                t1 = 'Above normal'
+                color = (0, 0, 1, 1)  # Blue color in RGBA format
+                self.root.get_screen('cardi').ids.gluco_level.helper_text = t1
+                self.root.get_screen('cardi').ids.gluco_level.line_color_focus = color
+                self.root.get_screen('cardi').ids.gluco_level.hint_text_color_focus = color
+                self.root.get_screen('cardi').ids.gluco_level.focus = False
+                self.root.get_screen('cardi').ids.gluco_level.focus = True
+                return '2'
+            elif 201 <= self.glucose <= 400:
+                t1 = 'Well above normal'
+                color = (0, 0, 1, 1)  # Blue color in RGBA format
+                self.root.get_screen('cardi').ids.gluco_level.helper_text = t1
+                self.root.get_screen('cardi').ids.gluco_level.line_color_focus = color
+                self.root.get_screen('cardi').ids.gluco_level.hint_text_color_focus = color
+                self.root.get_screen('cardi').ids.gluco_level.focus = False
+                self.root.get_screen('cardi').ids.gluco_level.focus = True
+                return '3'
+            else:
+                t1 = 'Fill it, and maximum glucose can be 400'
+                color = (1, 0, 0, 1)  # Red color in RGBA format
+                self.root.get_screen('cardi').ids.gluco_level.helper_text = t1
+                self.root.get_screen('cardi').ids.gluco_level.line_color_focus = color
+                self.root.get_screen('cardi').ids.gluco_level.hint_text_color_focus = color
+                self.root.get_screen('cardi').ids.gluco_level.focus = False
+                self.root.get_screen('cardi').ids.gluco_level.focus = True
+                return False
+        except:
+            t1 = 'Fill it, and maximum glucose can be 400'
+            color = (1, 0, 0, 1)  # Red color in RGBA format
+            self.root.get_screen('cardi').ids.gluco_level.helper_text = t1
+            self.root.get_screen('cardi').ids.gluco_level.line_color_focus = color
+            self.root.get_screen('cardi').ids.gluco_level.hint_text_color_focus = color
+            self.root.get_screen('cardi').ids.gluco_level.focus = False
+            self.root.get_screen('cardi').ids.gluco_level.focus = True
+            return False
+        
+  
 
     def cardivascular_dis(self):
+        check = self.card_display()
         Name = self.root.get_screen('cardi').ids.name.text
         Age = self.root.get_screen('cardi').ids.age.text
         Gender = self.root.get_screen('cardi').ids.drop_item.text
@@ -459,12 +604,19 @@ class apps(MDApp):
         Blood_press_hi = self.root.get_screen('cardi').ids.ap_hi.text
         Blood_press_low = self.root.get_screen('cardi').ids.ap_low.text
         chalestrol = self.root.get_screen('cardi').ids.drop_item_car_chales.text
-        golucose = self.root.get_screen('cardi').ids.golucose.text
+        hypertension = self.root.get_screen('cardi').ids.hyper.text
+        heart_disease = self.root.get_screen('cardi').ids.heart_dis.text
+        work_type = self.root.get_screen('cardi').ids.work.text 
+        married = self.root.get_screen('cardi').ids.married.text
+        residence =  self.root.get_screen('cardi').ids.residence.text
+        bmi = self.root.get_screen('cardi').ids.bmi.text
+
+        
         smoker = self.root.get_screen('cardi').ids.smoke.text
         alcholer = self.root.get_screen('cardi').ids.alcohol.text
         active = self.root.get_screen('cardi').ids.active.text
 
-        if Name!=''  and Gender != 'Select Gender' and Age!='' and active != 'Active':
+        if Name!=''  and Gender != 'Select Gender' and Age!='' and active != 'Active' and check!=False:
             # new_user = DB_heart(name=Name, age=Age, gender = Gender, chest_pain =chest_pain,blood_pressure = blood_pressure,cholestrol = cholesterol, fbs = fbs,restecg = rest_ecg, max_heart_rate =  max_heart_rate, angina = exercise_angina,  oldpeak = oldpeak, slope =  slope )
             # session.add(new_user)
             # session.commit()
@@ -473,18 +625,22 @@ class apps(MDApp):
             else:
                  g = 2
 
+            if smoker == 0:
+                 ss = 'never smoked'
+            else:
+                 ss = 'smokes'
 
             #Prediction of model Here:
             # Sample new data point
             new_data1 = pd.DataFrame({
                 'age': [int(Age)],
                 'gender': [int(g)],
-                'height': [int(height)],
+                'height': [int(height*30.48)],
                 'weight': [int(weight)],
                 'ap_hi': [int(Blood_press_hi)],
                 'ap_lo': [int(Blood_press_low)],
                 'cholesterol': [float(chalestrol)],
-                'gluc': [int(golucose)],
+                'gluc': [int(check)],
                 'smoke': [int(smoker)],
                 'alco': [int(alcholer)],
                 'active': [int(active)]
@@ -506,19 +662,62 @@ class apps(MDApp):
 
             final_predict = (predict5+predict6+predict7+predict8+predict9)/5
 
+            feature_names = [
+                'age', 'hypertension', 'heart_disease', 'avg_glucose_level', 'bmi',
+                'gender_Female', 'gender_Male', 'ever_married_No', 'ever_married_Yes',
+                'work_type_Govt_job', 'work_type_Never_worked', 'work_type_Private',
+                'work_type_Self-employed', 'work_type_children', 'Residence_type_Rural',
+                'Residence_type_Urban', 'smoking_status_formerly smoked',
+                'smoking_status_never smoked', 'smoking_status_smokes'
+            ]
+
+            new_data_point = {
+                    'age': [int(Age)],
+                    'hypertension': int(hypertension),
+                    'heart_disease': int(heart_disease),
+                    'avg_glucose_level':int(self.glucose),
+                    'bmi': int(bmi),
+                    'gender': Gender.capitalize(),
+                    'ever_married': married,
+                    'work_type': work_type,
+                    'Residence_type': residence,
+                    'smoking_status': ss
+                }
+            
+            df_new = pd.DataFrame([new_data_point])
+            df_new_encoded = pd.get_dummies(df_new)
+            df_new_encoded = df_new_encoded.reindex(columns=feature_names, fill_value=0)
+            df_new_encoded[['age', 'avg_glucose_level', 'bmi']] = self.scaler_stroke.transform(df_new_encoded[['age', 'avg_glucose_level', 'bmi']])
+            predict10 = self.model10.predict(df_new_encoded)
+            predict11 = self.model11.predict(df_new_encoded)
+            finalpred2 = (predict10+predict11)/2
+
+            if finalpred2 > 0.6:
+                 z = 'Heart stroke disease detected'
+                 self.root.get_screen('pred2').ids.heart_stroke.text = z
+                 self.root.get_screen('pred2').ids.heart_stroke.text_color = 1, 0, 0, 1
+                 self.screen.current = 'pred2'
+
+            else:
+                 z = 'No Heart stroke disease detected'
+                 self.root.get_screen('pred2').ids.heart_stroke.text = z
+                 self.root.get_screen('pred2').ids.heart_stroke.text_color = 0, 1, 0, 1
+                 self.screen.current = 'pred2'
+
        
             if final_predict > 0.7:
                  self.h = 1
                  z = 'Cardivascular Disease Detect'
-                 self.root.get_screen('pred1').ids.heart_lab.text = z
-                 self.root.get_screen('pred1').ids.heart_lab.text_color = 1, 0, 0, 1
-                 self.screen.current = 'pred1'
+                 self.root.get_screen('pred2').ids.heart_lab.text = z
+                 self.root.get_screen('pred2').ids.heart_lab.text_color = 1, 0, 0, 1
+                 self.screen.current = 'pred2'
             else:
                  self.h = 0
                  z = 'No Cardivascular Disease Detect'
-                 self.root.get_screen('pred1').ids.heart_lab.text = z
-                 self.root.get_screen('pred1').ids.heart_lab.text_color = 0, 1, 0, 1
-                 self.screen.current = 'pred1'
+                 self.root.get_screen('pred2').ids.heart_lab.text = z
+                 self.root.get_screen('pred2').ids.heart_lab.text_color = 0, 1, 0, 1
+                 self.screen.current = 'pred2'
+
 
             dialog = MDDialog(
             title="Success",
@@ -535,6 +734,23 @@ class apps(MDApp):
             size_hint=(0.5, 0.3)
             )
             dialog.open()
+
+    def bmi(self):
+        height = self.root.get_screen('cardi').ids.ht.text
+        weight = self.root.get_screen('cardi').ids.wt.text
+        if height and weight:
+            height_m = int(height) * 0.3048
+            bmi_ = int(weight) / pow(height_m,2)
+            self.root.get_screen('cardi').ids.bmi.text =  f"{bmi_:.1f}"
+        else:
+            dialog = MDDialog(
+            title="Warning",
+            text="Fill height and Weight feild",
+            size_hint=(0.5, 0.3)
+            )
+            dialog.open()
+             
+
 
 
 
@@ -556,6 +772,7 @@ class apps(MDApp):
         sm.add_widget(Heart_attack_screen1(name ='h_scr1'))
         sm.add_widget(Cardio_vascular(name = 'cardi'))
         sm.add_widget(Main_screen(name = 'main'))
+        sm.add_widget(Predict2(name = 'pred2'))
 
         self.screen.current = 'start_page'
         
